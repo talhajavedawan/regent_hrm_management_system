@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply Leave</title>
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #e8f5e9, #f8f9fa);
+        }
+        .card {
+            border-radius: 12px;
+        }
+        .form-control {
+            border-radius: 8px;
+        }
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-success">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bold">Employee Portal</span>
+        <a href="/employee/dashboard/" class="btn btn-light btn-sm">Dashboard</a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white text-center">
+                    <h4 class="mb-0">
+                        <i class="bi bi-calendar-check-fill"></i> Apply for Leave
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Leave Reason -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-pencil-square"></i> Reason for Leave
+                            </label>
+                            <textarea name="reason" class="form-control" rows="4"
+                                      placeholder="Enter reason for leave" required></textarea>
+                        </div>
+
+                        <!-- Dates -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="bi bi-calendar-event"></i> From Date
+                                </label>
+                                <input type="date" name="from_date" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="bi bi-calendar-event"></i> To Date
+                                </label>
+                                <input type="date" name="to_date" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="alert alert-info small">
+                            <i class="bi bi-info-circle"></i>
+                            Leave request will be sent to HR for approval.
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-send-fill"></i> Submit Leave Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
