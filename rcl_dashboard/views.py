@@ -99,3 +99,63 @@ def add_employee(request):
         return redirect('/hr/employees/')
 
     return render(request, 'hr/add_employee.html')
+# ---------------- APPLY LEAVE (EMPLOYEE) ----------------
+@login_required
+def apply_leave(request):
+    employee = Employee.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        Leave.objects.create(
+            employee=employee,
+            reason=request.POST['reason'],
+            from_date=request.POST['from_date'],
+            to_date=request.POST['to_date']
+        )
+        return redirect('employee_dashboard')
+
+    return render(request, 'employee/apply_leave.html')
+
+
+# ---------------- APPROVE LEAVE (HR) ----------------
+@login_required
+def approve_leave(request, leave_id):
+    leave = Leave.objects.get(id=leave_id)
+    print(leave)    
+    leave.status = 'APPROVED'
+    leave.save()
+    Notification.objects.create(
+        employee=leave.employee,
+        message="Your leave request has been APPROVED."
+    )
+
+    return redirect('/hr/leave-approvals/')
+
+def hr_leave_approve_list(request):
+    leaves = Leave.objects.all().order_by('-applied_on')
+    return render(request, 'hr/approve_leave.html', {'leaves': leaves})
+
+
+def reject_leave(request, leave_id):
+    leave = Leave.objects.get(id=leave_id)
+    leave.status = 'Rejected'
+    leave.save()
+    Notification.objects.create(
+        employee=leave.employee,
+        message="Your leave request has been REJECTED."
+    )
+
+    return redirect('/hr/leave-approvals/')
+# ---------------- UPLOAD SALARY (HR) ----------------
+@login_required
+def upload_salary(request):
+    if request.method == 'POST':
+        SalarySlip.objects.create(
+            employee_id=request.POST['employee'],
+            month=request.POST['month'],
+            file=request.FILES['file']
+        )
+        return redirect('upload_salary')
+
+    return render(request, 'hr/upload_salary.html', {
+        'employees': Employee.objects.all()
+    })
