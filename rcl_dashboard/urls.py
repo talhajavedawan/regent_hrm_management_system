@@ -4,8 +4,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('', home_page,name="home_page"),
-    path('hr/login/', hr_login),# path('hr/add-employee/', add_employee, name='add_employee'),
-    path('employee/apply-leave/', apply_leave),
+    path('hr/login/', hr_login),
+    path('employee/login/', employee_login),
+
     # path('hr/add-employee/', add_employee, name='add_employee'),
     path('employee/apply-leave/', apply_leave),
     # path('hr/approve-leave/<int:id>/', approve_leave),
