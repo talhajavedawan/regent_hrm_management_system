@@ -6,6 +6,8 @@ urlpatterns = [
     path('', home_page,name="home_page"),
     path('hr/login/', hr_login),# path('hr/add-employee/', add_employee, name='add_employee'),
     path('employee/apply-leave/', apply_leave),
+    # path('hr/add-employee/', add_employee, name='add_employee'),
+    path('employee/apply-leave/', apply_leave),
     # path('hr/approve-leave/<int:id>/', approve_leave),
     path('hr/leave-approvals/', hr_leave_approve_list),
     path('hr/approve/<int:leave_id>/', approve_leave),
@@ -25,4 +27,5 @@ urlpatterns = [
     path('employee/profile/', employee_profile_view, name='employee_profile_view'),
     path('employee/profile/edit/', employee_profile_edit, name='employee_profile_edit'),
 ]
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
