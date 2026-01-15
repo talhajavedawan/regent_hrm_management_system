@@ -1,0 +1,98 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary px-4">
+    <a class="navbar-brand fw-bold" href="#">HRM System</a>
+
+    <div class="ms-auto d-flex align-items-center gap-3">
+
+        <!-- 🔔 Notifications -->
+        <div class="dropdown">
+            <a class="text-white position-relative"
+               data-bs-toggle="dropdown">
+                <i class="bi bi-bell fs-5"></i>
+
+                {% if notifications_count > 0 %}
+                <span class="position-absolute top-0 start-100 translate-middle
+                             badge rounded-pill bg-danger">
+                    {{ notifications_count }}
+                </span>
+                {% endif %}
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow"
+                style="width: 320px;">
+
+                <li class="dropdown-header fw-bold">
+                    Notifications
+                </li>
+
+                {% for n in notifications %}
+                <li>
+                    <a class="dropdown-item small">
+                        {{ n.message }}
+                        <br>
+                        <span class="text-muted">
+                            {{ n.created_at|date:"d M Y H:i" }}
+                        </span>
+                    </a>
+                </li>
+                {% empty %}
+                <li class="dropdown-item text-muted">
+                    No notifications
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- 📢 Announcements -->
+        <div class="dropdown">
+            <a class="text-white" data-bs-toggle="dropdown">
+                <i class="bi bi-megaphone fs-5"></i>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow"
+                style="width: 350px;">
+
+                <li class="dropdown-header fw-bold">
+                    Announcements
+                </li>
+
+                {% for a in announcements %}
+                <li class="px-3 py-2">
+                    <strong>{{ a.title }}</strong>
+                    <p class="small mb-1">{{ a.message }}</p>
+                    <span class="text-muted small">
+                        {{ a.created_at|date:"d M Y" }}
+                    </span>
+                </li>
+                <hr class="my-1">
+                {% empty %}
+                <li class="dropdown-item text-muted">
+                    No announcements
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- 👤 Profile -->
+        <div class="dropdown">
+    <button class="btn btn-link text-white p-0"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+        <i class="bi bi-person-circle fs-5"></i>
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow">
+        <li>
+            <a class="dropdown-item" href="/employee/profile/">
+                <i class="bi bi-person"></i> My Profile
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/logout/">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+        </li>
+    </ul>
+</div>
+</nav>
