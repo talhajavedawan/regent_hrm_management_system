@@ -25,6 +25,8 @@ def hr_login(request):
             login(request, user)
             return redirect('hr_dashboard')
     return render(request, 'hr/login.html')
+
+
 # ---------------- EMPLOYEE LOGIN ----------------
 def employee_login(request):
     if request.method == 'POST':
@@ -49,9 +51,15 @@ def add_employee(request):
         nationality = request.POST['nationality']
         share_code = request.POST.get('share_code')
 
+       
         # 🇬🇧 UK employee → skip visa check
         if nationality == 'United Kingdom':
+            user = User.objects.create_user(
+            username=name,
+            password='emp123'
+        )
             Employee.objects.create(
+                user=user,
                 name=name,
                 department=department,
                 nationality=nationality,
@@ -81,11 +89,11 @@ def add_employee(request):
             return render(request, 'hr/error.html', {
                 'msg': 'Visa is expired. Employee cannot be added.'
             })
+       
         user = User.objects.create_user(
             username=name,
             password='emp123'
         )
-
         # Valid visa → add employee
         Employee.objects.create(
              user=user,
@@ -99,6 +107,7 @@ def add_employee(request):
         return redirect('/hr/employees/')
 
     return render(request, 'hr/add_employee.html')
+
 # ---------------- APPLY LEAVE (EMPLOYEE) ----------------
 @login_required
 def apply_leave(request):
@@ -159,6 +168,8 @@ def upload_salary(request):
     return render(request, 'hr/upload_salary.html', {
         'employees': Employee.objects.all()
     })
+
+
 # ---------------- DOWNLOAD SALARY (EMPLOYEE) ----------------
 @login_required
 def salary_list(request):
@@ -212,8 +223,15 @@ def logout_view(request):
 @login_required
 def employee_list(request):
     employees = Employee.objects.all()
+    visa_map = {
+        v.share_code: v.expiry_date
+        for v in VisaExpiry.objects.all()
+    }
     return render(request, 'hr/employee_list.html', {
-        'employees': employees
+       # 'employees': employees,
+       'employees':employees,
+        'visa_map': visa_map
+       # 'visadate':visadate
     })
 
 @login_required
@@ -223,7 +241,7 @@ def edit_employee(request, id):
     if request.method == 'POST':
         emp.name = request.POST['name']
         emp.department = request.POST['department']
-        emp.nationality = request.POST['nationality']
+       # emp.nationality = request.POST['nationality']
         emp.save()
         return redirect('employee_list')
 
@@ -233,15 +251,20 @@ def edit_employee(request, id):
 @login_required
 def delete_employee(request, id):
     employee =get_object_or_404(Employee,id = id)
+    emp = Employee.objects.get(id=id)
     if employee.nationality == 'United Kingdom':
         employee.delete()
+        emp.user.delete()   # deletes linked auth user
+        emp.delete()
         return redirect('employee_list')
     if employee.nationality != 'United Kingdom':
         employee.delete()
+        emp.user.delete()
+        emp.delete()
         return redirect('employee_list')
-    emp = Employee.objects.get(id=id)
-    emp.user.delete()   # deletes linked auth user
-    emp.delete()
+    
+   
+    
     return redirect('employee_list')
 
 

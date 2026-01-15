@@ -72,7 +72,7 @@
                         </div>
 
                         <!-- Nationality -->
-                        <div class="section-title mt-4">Nationality & Visa</div>
+                        {% comment %} <div class="section-title mt-4">Nationality & Visa</div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Nationality</label>
@@ -92,7 +92,7 @@
                                     Other
                                 </option>
                             </select>
-                        </div>
+                        </div> 
 
                         <!-- Share Code -->
                         <div class="mb-3" id="shareCodeDiv">
@@ -105,7 +105,7 @@
                             <small class="text-muted">
                                 Required only for non-UK employees
                             </small>
-                        </div>
+                        </div> 
 
                         <!-- Visa Status -->
                         <div class="mb-4">
@@ -113,7 +113,7 @@
                             <input type="text" class="form-control"
                                    value="{{ employee.visa_status }}"
                                    disabled>
-                        </div>
+                        </div>  {% endcomment %}
 
                         <!-- Buttons -->
                         <div class="d-flex justify-content-between">
