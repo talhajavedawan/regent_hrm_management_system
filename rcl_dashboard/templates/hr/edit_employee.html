@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Employee</title>
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #eef2f7, #f8f9fa);
+        }
+        .card {
+            border-radius: 14px;
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <script>
+        function toggleShareCode() {
+            const nationality = document.getElementById("nationality").value;
+            const shareCodeDiv = document.getElementById("shareCodeDiv");
+
+            if (nationality === "United Kingdom") {
+                shareCodeDiv.style.display = "none";
+            } else {
+                shareCodeDiv.style.display = "block";
+            }
+        }
+    </script>
+</head>
+<body onload="toggleShareCode()">
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-person-lines-fill"></i> Edit Employee Details
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Basic Info -->
+                        <div class="section-title">Basic Information</div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Employee Name</label>
+                            <input type="text" name="name" class="form-control"
+                                   value="{{ employee.name }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Department</label>
+                            <input type="text" name="department" class="form-control"
+                                   value="{{ employee.department }}" required>
+                        </div>
+
+                        <!-- Nationality -->
+                        <div class="section-title mt-4">Nationality & Visa</div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nationality</label>
+                            <select name="nationality" id="nationality"
+                                    class="form-select"
+                                    onchange="toggleShareCode()" required>
+                                <option value="United Kingdom"
+                                    {% if employee.nationality == "United Kingdom" %}selected{% endif %}>
+                                    United Kingdom
+                                </option>
+                                <option value="India"
+                                    {% if employee.nationality == "India" %}selected{% endif %}>
+                                    India
+                                </option>
+                                <option value="Other"
+                                    {% if employee.nationality == "Other" %}selected{% endif %}>
+                                    Other
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Share Code -->
+                        <div class="mb-3" id="shareCodeDiv">
+                            <label class="form-label fw-semibold">
+                                Visa Share Code
+                            </label>
+                            <input type="text" name="share_code"
+                                   class="form-control"
+                                   value="{{ employee.share_code|default:'' }}">
+                            <small class="text-muted">
+                                Required only for non-UK employees
+                            </small>
+                        </div>
+
+                        <!-- Visa Status -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Visa Status</label>
+                            <input type="text" class="form-control"
+                                   value="{{ employee.visa_status }}"
+                                   disabled>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="/hr/employees/" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back
+                            </a>
+
+                            <button class="btn btn-primary px-4">
+                                <i class="bi bi-save-fill"></i> Update Employee
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

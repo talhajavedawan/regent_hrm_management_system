@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff5f5, #f8f9fa);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .error-card {
+            max-width: 450px;
+            width: 100%;
+            border-radius: 12px;
+        }
+        .error-icon {
+            font-size: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card error-card shadow-lg text-center">
+    <div class="card-body p-4">
+        <div class="text-danger error-icon mb-3">
+            ❌
+        </div>
+
+        <h4 class="text-danger mb-2">Action Failed</h4>
+
+        <p class="text-muted">
+            {{ msg }}
+        </p>
+
+        <hr>
+
+        <div class="d-grid gap-2">
+            <a href="/hr/employees/" class="btn btn-primary">
+                Back to Employee List
+            </a>
+            <a href="/hr/add-employee/" class="btn btn-secondary">
+                Try Again
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
