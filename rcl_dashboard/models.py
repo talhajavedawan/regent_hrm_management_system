@@ -27,7 +27,7 @@ class Employee(models.Model):
 class VisaExpiry(models.Model):
     name = models.CharField(max_length=100)
     share_code = models.CharField(max_length=20)
-    expiry_date = models.DateField()
+    expiry_date = models.DateField() 
 
     def __str__(self):
         return self.share_code
