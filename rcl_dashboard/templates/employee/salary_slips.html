@@ -24,7 +24,7 @@
                 <td>{{ slip.month }}</td>
                 <td>{{ slip.uploaded_at|date:"d M Y" }}</td>
                 <td>
-                    <a href="{{ slip.file.url }}" class="btn btn-sm btn-primary" download>
+                    <a href="{% url 'download_salary_slip' slip.id %}" class="btn btn-sm btn-primary">
                         Download
                     </a>
                 </td>
